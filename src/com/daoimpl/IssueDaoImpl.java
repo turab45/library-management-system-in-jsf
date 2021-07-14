@@ -1,33 +1,23 @@
 package com.daoimpl;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import com.sun.org.apache.bcel.internal.generic.ISUB;
-
-import dao.IssueDao;
-import models.Book;
-import models.Issue;
-import models.Role;
-import models.Student;
-import models.User;
-import sun.security.x509.SubjectKeyIdentifierExtension;
-import util.Database;
+import com.dao.IssueDao;
+import com.entities.IssueEntity;
+import com.util.Database;
 
 public class IssueDaoImpl implements IssueDao{
 	
 
 	@Override
-	public Integer addIssue(Issue issue) {
+	public Integer addIssue(IssueEntity issue) {
 		Integer row = null;
 		try {
 			
@@ -36,12 +26,12 @@ public class IssueDaoImpl implements IssueDao{
 
 			Transaction transaction = session.beginTransaction();
 			
-			session.save(issue);
+			row = (Integer) session.save(issue);
 
 			
 			
 			transaction.commit();
-			System.out.println("Successfully saved.");
+			System.out.println("Successfully saved issued.");
 			
 			session.close();
 
@@ -53,7 +43,7 @@ public class IssueDaoImpl implements IssueDao{
 	}
 
 	@Override
-	public Integer updateIssue(Issue issue) {
+	public Integer updateIssue(IssueEntity issue) {
 		Integer row = null;
 		try {
 			
@@ -63,11 +53,11 @@ public class IssueDaoImpl implements IssueDao{
 			Transaction transaction = session.beginTransaction();
 
 			session.update(issue);
-
+			row = 1;
 			
 			
 			transaction.commit();
-			System.out.println("Successfully updated.");
+			System.out.println("Successfully updated issue.");
 			
 			session.close();
 
@@ -79,7 +69,7 @@ public class IssueDaoImpl implements IssueDao{
 	}
 
 	@Override
-	public Integer deleteIssue(Issue issue) {
+	public Integer deleteIssue(IssueEntity issue) {
 		Integer row = null;
 		try {
 			
@@ -89,11 +79,11 @@ public class IssueDaoImpl implements IssueDao{
 			Transaction transaction = session.beginTransaction();
 
 			session.remove(issue);
-
+			row = 1;
 			
 			
 			transaction.commit();
-			System.out.println("Successfully removed.");
+			System.out.println("Successfully removed issue.");
 			
 			session.close();
 
@@ -105,8 +95,8 @@ public class IssueDaoImpl implements IssueDao{
 	}
 
 	@Override
-	public Issue getIssueById(Integer id) {
-		Issue issue = null;
+	public IssueEntity getIssueById(Integer id) {
+		IssueEntity issue = null;
 		
 		try {
 			
@@ -115,12 +105,12 @@ public class IssueDaoImpl implements IssueDao{
 
 			Transaction transaction = session.beginTransaction();
 
-			issue = session.get(Issue.class, id);
+			issue = session.get(IssueEntity.class, id);
 
 			
 			
 			transaction.commit();
-			System.out.println("Successfully fetched.");
+			System.out.println("Successfully fetched issue by id.");
 			
 			session.close();
 
@@ -133,8 +123,8 @@ public class IssueDaoImpl implements IssueDao{
 	}
 
 	@Override
-	public List<Issue> getAllIssue() {
-		List<Issue> allIssue = new ArrayList<Issue>();
+	public List<IssueEntity> getAllIssue() {
+		List<IssueEntity> allIssue = new ArrayList<IssueEntity>();
 try {
 			
 			SessionFactory factory = Database.getConnection();
@@ -142,12 +132,12 @@ try {
 
 			Transaction transaction = session.beginTransaction();
 
-			allIssue = session.createQuery("from Issue i  where i.status>0").list();
+			allIssue = session.createQuery("from IssueEntity i  where i.status>0").list();
 
 			
 			
 			transaction.commit();
-			System.out.println("Successfully fetched.");
+			System.out.println("Successfully fetched all isuue.");
 			
 			session.close();
 
@@ -160,37 +150,10 @@ try {
         return allIssue;
 	}
 
-	@Override
-	public Integer getIdByBookandStudent(Integer bookId, Integer studentID) {
-		Issue issue = null;
-		try {
-			SessionFactory factory = Database.getConnection();
-			Session session = factory.openSession();
 
-			Transaction transaction = session.beginTransaction();
-
-			Query query=session.createQuery("from Issue i where i.bookId=:n and i.studentId=:p");
-			query.setParameter("n", bookId);
-			query.setParameter("p", studentID);
-			  
-			List list= query.list();//will return the records from 5 to 10th number  
-			
-			issue = (Issue) list.get(0);
-
-			transaction.commit();
-			System.out.println("Successfully updated.");
-			//factory.close();
-			session.close();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Error : " + e.getMessage());
-		}
-		return issue.getId();
-	}
 
 	@Override
-	public Integer returnBook(Issue issue) {
+	public Integer returnBook(IssueEntity issueEntity) {
 		Integer row = null;
 		try {
 			
@@ -199,9 +162,9 @@ try {
 
 			Transaction transaction = session.beginTransaction();
 			
-			issue.setStatus(0);
+			issueEntity.setStatus(0);
 			
-			session.update(issue);
+			session.update(issueEntity);
 
 			
 			

@@ -1,28 +1,18 @@
 package com.daoimpl;
-
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-
-import dao.CategoryDao;
-import models.Book;
-import models.Category;
-import models.Role;
-import util.Database;
+import com.dao.CategoryDao;
+import com.entities.CategoryEntity;
+import com.util.Database;
 
 public class CategoryDaoImpl implements CategoryDao{
 	
 
 	@Override
-	public Integer addCategory(Category category) {
+	public Integer addCategory(CategoryEntity category) {
 		Integer row = null;
 		try {
 			
@@ -36,7 +26,7 @@ public class CategoryDaoImpl implements CategoryDao{
 			
 			
 			transaction.commit();
-			System.out.println("Successfully saved.");
+			System.out.println("Successfully saved category.");
 			
 			session.close();
 
@@ -48,7 +38,7 @@ public class CategoryDaoImpl implements CategoryDao{
 	}
 
 	@Override
-	public Integer updateCategory(Category category) {
+	public Integer updateCategory(CategoryEntity category) {
 		Integer row = null;
 		try {
 			
@@ -62,7 +52,7 @@ public class CategoryDaoImpl implements CategoryDao{
 			
 			
 			transaction.commit();
-			System.out.println("Successfully updated.");
+			System.out.println("Successfully updated category.");
 			
 			session.close();
 
@@ -74,7 +64,7 @@ public class CategoryDaoImpl implements CategoryDao{
 	}
 
 	@Override
-	public Integer deleteCategory(Category category) {
+	public Integer deleteCategory(CategoryEntity category) {
 		Integer row = null;
 		try {
 			
@@ -88,7 +78,7 @@ public class CategoryDaoImpl implements CategoryDao{
 			
 			
 			transaction.commit();
-			System.out.println("Successfully saved.");
+			System.out.println("Successfully deleted category.");
 			
 			session.close();
 
@@ -99,37 +89,11 @@ public class CategoryDaoImpl implements CategoryDao{
 		return row;
 	}
 
-	@Override
-	public Integer getIdByName(String name) {
-		Category category = null;
-		try {
-			SessionFactory factory = Database.getConnection();
-			Session session = factory.openSession();
-
-			Transaction transaction = session.beginTransaction();
-
-			Query query=session.createQuery("from Category c where c.category=:n");
-			query.setParameter("n", name);
-			  
-			List list= query.list();//will return the records from 5 to 10th number  
-			
-			category = (Category) list.get(0);
-
-			transaction.commit();
-			System.out.println("Successfully updated.");
-			//factory.close();
-			session.close();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Error : " + e.getMessage());
-		}
-		return category.getId();
-	}
+	
 
 	@Override
-	public Category getCategoryById(Integer id) {
-		Category category = null;
+	public CategoryEntity getCategoryById(Integer id) {
+		CategoryEntity category = null;
 		
 		try {
 			
@@ -138,12 +102,12 @@ public class CategoryDaoImpl implements CategoryDao{
 
 			Transaction transaction = session.beginTransaction();
 
-			category = session.get(Category.class, id);
+			category = session.get(CategoryEntity.class, id);
 
 			
 			
 			transaction.commit();
-			System.out.println("Successfully fetched.");
+			System.out.println("Successfully fetched category by id.");
 			
 			session.close();
 
@@ -156,8 +120,8 @@ public class CategoryDaoImpl implements CategoryDao{
 	}
 
 	@Override
-	public List<Category> getAllCategory() {
-		List<Category> allCategory = new ArrayList<Category>();
+	public List<CategoryEntity> getAllCategory() {
+		List<CategoryEntity> allCategory = new ArrayList<CategoryEntity>();
 		
 		try {
 			
@@ -166,12 +130,12 @@ public class CategoryDaoImpl implements CategoryDao{
 
 			Transaction transaction = session.beginTransaction();
 
-			allCategory = session.createQuery("from Category").list();
+			allCategory = session.createQuery("from CategoryEntity").getResultList();
 
 			
 			
 			transaction.commit();
-			System.out.println("Successfully fetched.");
+			System.out.println("Successfully fetched all categories.");
 			
 			session.close();
 

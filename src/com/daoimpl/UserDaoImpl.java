@@ -7,16 +7,17 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import dao.UserDAO;
-import models.User;
-import util.Database;
+import com.dao.UserDao;
+import com.entities.UserEntity;
+import com.util.Database;
 
 
-public class UserDaoImpl implements UserDAO{
+
+public class UserDaoImpl implements UserDao{
 	
 
 	@Override
-	public Integer addUser(User user) {
+	public Integer addUser(UserEntity user) {
 		Integer row = null;
 		try {
 			
@@ -42,7 +43,7 @@ public class UserDaoImpl implements UserDAO{
 	}
 
 	@Override
-	public Integer updateUser(User user) {
+	public Integer updateUser(UserEntity user) {
 		Integer row = null;
 		try {
 			
@@ -68,7 +69,7 @@ public class UserDaoImpl implements UserDAO{
 	}
 
 	@Override
-	public Integer deleteUser(User user) {
+	public Integer deleteUser(UserEntity user) {
 		Integer row = null;
 		try {
 			
@@ -94,15 +95,15 @@ public class UserDaoImpl implements UserDAO{
 	}
 
 	@Override
-	public User getUserById(Integer id) {
-		User user = null;
+	public UserEntity getUserById(Integer id) {
+		UserEntity user = null;
 		try {
 			SessionFactory factory = Database.getConnection();
 			Session session = factory.openSession();
 
 			Transaction transaction = session.beginTransaction();
 			
-			user = session.get(User.class, id);
+			user = session.get(UserEntity.class, id);
 
 			transaction.commit();
 			System.out.println("Successfully updated.");
@@ -116,64 +117,11 @@ public class UserDaoImpl implements UserDAO{
 		return user;
 	}
 
-	@Override
-	public Integer getUserIdByName(String name) {
-		User user = null;
-		try {
-			SessionFactory factory = Database.getConnection();
-			Session session = factory.openSession();
-
-			Transaction transaction = session.beginTransaction();
-
-			user = session.get(User.class, name);
-			
-			transaction.commit();
-			System.out.println("Successfully updated.");
-			//factory.close();
-			session.close();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Error : " + e.getMessage());
-		}
-		return user.getId();
-	}
 	
-	@Override
-	public Integer getUserIdByEmailandPass(String email, String pass) {
-		User user = null;
-		try {
-			SessionFactory factory = Database.getConnection();
-			Session session = factory.openSession();
-
-			Transaction transaction = session.beginTransaction();
-
-			Query query=session.createQuery("from User u where u.email=:n and u.password=:p");
-			query.setParameter("n", email);
-			query.setParameter("p", pass);
-			  
-			List list= query.list();//will return the records from 5 to 10th number  
-			
-			user = (User) list.get(0);
-
-			transaction.commit();
-			System.out.println("Successfully updated.");
-			//factory.close();
-			session.close();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Error : " + e.getMessage());
-		}
-		if (user != null) {
-			return user.getId();
-		}
-		return null;
-	}
 
 	@Override
-	public List<User> getAllUser() {
-		List<User>  allUser = new ArrayList<User>();
+	public List<UserEntity> getAllUser() {
+		List<UserEntity>  allUser = new ArrayList<UserEntity>();
 		
 		try {
 			
@@ -182,7 +130,7 @@ public class UserDaoImpl implements UserDAO{
 
 			Transaction transaction = session.beginTransaction();
 
-			allUser = session.createQuery("from User").list();
+			allUser = session.createQuery("from UserEntity").list();
 
 			
 			
@@ -200,27 +148,33 @@ public class UserDaoImpl implements UserDAO{
 	}
 
 	@Override
-	public Integer addUser(User role) {
-		// TODO Auto-generated method stub
-		return null;
+	public UserEntity getUserByEmailAndPassword(String email, String password) {
+		UserEntity  user = null;
+		
+		try {
+			
+			SessionFactory factory = Database.getConnection();
+			Session session = factory.openSession();
+
+			Transaction transaction = session.beginTransaction();
+
+			user = (UserEntity) session.createQuery("from UserEntity u where u.email=:e and u.password=:p").getSingleResult();
+
+			
+			
+			transaction.commit();
+			System.out.println("Successfully fetched.");
+			
+			session.close();
+
+		} catch (Exception ex) {
+			System.out.println("ERROR: " + ex.getMessage());
+			ex.printStackTrace();
+		}
+		
+        return user;
 	}
 
-	@Override
-	public Integer updateUser(User role) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public Integer deleteUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public User getUserById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

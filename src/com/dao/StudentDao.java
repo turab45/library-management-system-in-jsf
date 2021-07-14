@@ -9,5 +9,6 @@ public interface StudentDao {
 	public Integer updateStudent(StudentEntity studentEntity);
 	public Integer deleteStudent(StudentEntity studentEntity);
 	public StudentEntity getStudentById(Integer id);
+	public Integer getIdByRollNo(String rollNo);
 	public List<StudentEntity> getAllStudent();
 }

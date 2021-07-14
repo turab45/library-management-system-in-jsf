@@ -1,35 +1,20 @@
 package com.daoimpl;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-
-import com.mysql.fabric.xmlrpc.base.Data;
-import com.sun.prism.paint.RadialGradient;
-
-import dao.BookDao;
-import jdk.internal.org.objectweb.asm.util.CheckAnnotationAdapter;
-import jdk.nashorn.internal.runtime.regexp.JoniRegExp.Factory;
-import models.Book;
-import models.Category;
-import models.Role;
-import models.Student;
-import util.Database;
+import com.dao.BookDao;
+import com.entities.BookEntity;
+import com.util.Database;
 
 public class BookDaoImpl implements BookDao{
 	
 		
 
 	@Override
-	public Integer addBook(Book book) {
+	public Integer addBook(BookEntity book) {
 		Integer row = null;
 		try {
 			
@@ -38,12 +23,12 @@ public class BookDaoImpl implements BookDao{
 
 			Transaction transaction = session.beginTransaction();
 
-			session.save(book);
+			row = (Integer) session.save(book);
 
 			
 			
 			transaction.commit();
-			System.out.println("Successfully saved.");
+			System.out.println("Successfully saved book.");
 			
 			session.close();
 
@@ -55,7 +40,7 @@ public class BookDaoImpl implements BookDao{
 	}
 
 	@Override
-	public Integer updateBook(Book book) {
+	public Integer updateBook(BookEntity book) {
 		Integer row = null;
 		try {
 			
@@ -65,11 +50,11 @@ public class BookDaoImpl implements BookDao{
 			Transaction transaction = session.beginTransaction();
 
 			session.update(book);
-
+			row = 1;
 			
 			
 			transaction.commit();
-			System.out.println("Successfully updated.");
+			System.out.println("Successfully updated book.");
 			
 			session.close();
 
@@ -81,7 +66,7 @@ public class BookDaoImpl implements BookDao{
 	}
 
 	@Override
-	public Integer deleteBook(Book book) {
+	public Integer deleteBook(BookEntity book) {
 		Integer row = null;
 		try {
 			
@@ -91,11 +76,11 @@ public class BookDaoImpl implements BookDao{
 			Transaction transaction = session.beginTransaction();
 
 			session.remove(book);
-
+			row = 1;
 			
 			
 			transaction.commit();
-			System.out.println("Successfully removed.");
+			System.out.println("Successfully deleted book.");
 			
 			session.close();
 
@@ -106,38 +91,11 @@ public class BookDaoImpl implements BookDao{
 		return row;
 	}
 
-	@Override
-	public Integer getIdByName(String name) {
-		
-		Book book = null;
-		try {
-			SessionFactory factory = Database.getConnection();
-			Session session = factory.openSession();
-
-			Transaction transaction = session.beginTransaction();
-
-			Query query=session.createQuery("from Book b where b.title=:n");
-			query.setParameter("n", name);
-			  
-			List list= query.list();//will return the records from 5 to 10th number  
-			
-			book = (Book) list.get(0);
-
-			transaction.commit();
-			System.out.println("Successfully updated.");
-			//factory.close();
-			session.close();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Error : " + e.getMessage());
-		}
-		return book.getId();
-	}
+	
 
 	@Override
-	public Book getBookById(Integer id) {
-		Book book = null;
+	public BookEntity getBookById(Integer id) {
+		BookEntity book = null;
 		
 		try {
 			
@@ -146,12 +104,12 @@ public class BookDaoImpl implements BookDao{
 
 			Transaction transaction = session.beginTransaction();
 
-			book = session.get(Book.class, id);
+			book = session.get(BookEntity.class, id);
 
 			
 			
 			transaction.commit();
-			System.out.println("Successfully saved.");
+			System.out.println("Successfully fethched book by id.");
 			
 			session.close();
 
@@ -164,8 +122,8 @@ public class BookDaoImpl implements BookDao{
 	}
 
 	@Override
-	public List<Book> getAllBook() {
-		List<Book> allBook = new ArrayList<Book>();
+	public List<BookEntity> getAllBook() {
+		List<BookEntity> allBook = new ArrayList<BookEntity>();
 		
 		try {
 			
@@ -174,12 +132,12 @@ public class BookDaoImpl implements BookDao{
 
 			Transaction transaction = session.beginTransaction();
 
-			allBook = session.createQuery("from Book").list();
+			allBook = session.createQuery("from BookEntity").getResultList();
 
 			
 			
 			transaction.commit();
-			System.out.println("Successfully fetched.");
+			System.out.println("Successfully fetched all books.");
 			
 			session.close();
 

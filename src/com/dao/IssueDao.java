@@ -9,5 +9,6 @@ public interface IssueDao {
 	public Integer updateIssue(IssueEntity issueEntity);
 	public Integer deleteIssue(IssueEntity issueEntity);
 	public IssueEntity getIssueById(Integer id);
+	public Integer returnBook(IssueEntity issue);
 	public List<IssueEntity> getAllIssue();
 }
