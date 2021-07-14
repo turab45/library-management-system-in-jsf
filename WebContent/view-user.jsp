@@ -1,6 +1,6 @@
-<%@page import="daoimpl.RoleDaoImpl"%>
+<%@page import="com.daoimpl.RoleDaoImpl"%>
 <%@page import="dao.RoleDao"%>
-<%@page import="daoimpl.UserDaoImpl"%>
+<%@page import="com.daoimpl.UserDaoImpl"%>
 <%@page import="dao.UserDAO"%>
 <%@page import="java.util.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"

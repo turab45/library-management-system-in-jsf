@@ -1,7 +1,7 @@
 <%@page import="java.util.List"%>
-<%@page import="daoimpl.CategoryDaoImpl"%>
+<%@page import="com.daoimpl.CategoryDaoImpl"%>
 <%@page import="dao.CategoryDao"%>
-<%@page import="daoimpl.BookDaoImpl"%>
+<%@page import="com.daoimpl.BookDaoImpl"%>
 <%@page import="dao.BookDao"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>

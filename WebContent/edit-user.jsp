@@ -1,8 +1,8 @@
-<%@page import="daoimpl.UserDaoImpl"%>
+<%@page import="com.daoimpl.UserDaoImpl"%>
 <%@page import="dao.UserDAO"%>
 <%@page import="dao.RoleDao"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
-<%@page import="daoimpl.RoleDaoImpl"%>
+<%@page import="com.daoimpl.RoleDaoImpl"%>
 <%@page import="dao.RoleDao"%>
 <%@page import="models.*"%>
 <%@page import="java.util.*"%>

@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
     <%@page import="models.*"%>
     <%@page import="dao.*"%>
-    <%@page import="daoimpl.*"%>
+    <%@page import="com.daoimpl.*"%>
     
     
     <%

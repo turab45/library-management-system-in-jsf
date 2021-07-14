@@ -1,13 +1,13 @@
-<%@page import="daoimpl.UserDaoImpl"%>
+<%@page import="com.daoimpl.UserDaoImpl"%>
 <%@page import="dao.UserDAO"%>
-<%@page import="daoimpl.StudentDaoImpl"%>
+<%@page import="com.daoimpl.StudentDaoImpl"%>
 <%@page import="dao.StudentDao"%>
-<%@page import="daoimpl.IssueDaoImpl"%>
+<%@page import="com.daoimpl.IssueDaoImpl"%>
 <%@page import="dao.IssueDao"%>
-<%@page import="daoimpl.CategoryDaoImpl"%>
+<%@page import="com.daoimpl.CategoryDaoImpl"%>
 <%@page import="dao.CategoryDao"%>
 <%@page import="java.util.List"%>
-<%@page import="daoimpl.BookDaoImpl"%>
+<%@page import="com.daoimpl.BookDaoImpl"%>
 <%@page import="dao.BookDao"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
